@@ -21,8 +21,8 @@ export default defineConfig({
         scope: '/doctorspub-bickfaya/',
         display: 'standalone',
         icons: [
-          { src: 'https://neejad-md-mba.github.io/doctorspub-bickfaya/IMG_9912.jpeg', sizes: '512x512', type: 'image/jpeg', purpose: 'any' },
-          { src: 'https://neejad-md-mba.github.io/doctorspub-bickfaya/IMG_9913.jpeg', sizes: '192x192', type: 'image/jpeg', purpose: 'any' },
+          { src: 'https://neejad-md-mba.github.io/doctorspub-bickfaya/icons/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+          { src: 'https://neejad-md-mba.github.io/doctorspub-bickfaya/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
           { src: 'https://neejad-md-mba.github.io/doctorspub-bickfaya/icons/mask-icon.svg', sizes: '512x512', type: 'image/svg+xml', purpose: 'maskable' }
         ]
       }
