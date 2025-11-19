@@ -12,11 +12,17 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: 'Georgia', serif;
             background-color: #000;
             color: #fff;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .container {
@@ -59,14 +65,19 @@
         nav a {
             color: #fff;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
             padding: 0.5rem 1rem;
             border-radius: 5px;
+            -webkit-tap-highlight-color: transparent;
         }
         
         nav a:hover {
             color: #D4AF37;
             background: rgba(212, 175, 55, 0.1);
+        }
+        
+        nav a:active {
+            transform: scale(0.95);
         }
         
         /* Mobile Menu Toggle */
@@ -76,6 +87,7 @@
             cursor: pointer;
             z-index: 1001;
             padding: 0.5rem;
+            -webkit-tap-highlight-color: transparent;
         }
         
         .menu-toggle span {
@@ -214,9 +226,10 @@
             border: 2px solid #D4AF37;
             border-radius: 15px;
             padding: 2rem;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         .identity-card::before {
@@ -299,13 +312,15 @@
             padding: 2rem;
             border-radius: 15px;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         .entertainment-item:hover {
             border-color: #D4AF37;
             transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(212, 175, 55, 0.2);
         }
         
         .entertainment-icon {
@@ -337,17 +352,28 @@
             border-radius: 15px;
             cursor: pointer;
             height: 400px;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
         }
         
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s;
+            transition: transform 0.5s ease;
         }
         
         .gallery-item:hover img {
             transform: scale(1.1);
+        }
+        
+        .gallery-item:active img {
+            transform: scale(1.05);
         }
         
         /* Modal */
@@ -397,6 +423,13 @@
             padding: 2rem;
             border-radius: 15px;
             border: 2px solid #D4AF37;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(212, 175, 55, 0.2);
         }
         
         .contact-card h3 {
@@ -806,8 +839,15 @@
         const navMenu = document.getElementById('navMenu');
         
         menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
+            const isActive = menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (isActive) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
         });
         
         // Close menu when clicking on a link
@@ -815,6 +855,7 @@
             link.addEventListener('click', () => {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                document.body.style.overflow = '';
             });
         });
         
@@ -823,6 +864,7 @@
             if (!e.target.closest('nav')) {
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
         
