@@ -1,21 +1,69 @@
 import './styles.css'
 
-function openModal(src) {
-  const modal = document.getElementById('imageModal')
-  const modalImg = document.getElementById('modalImage')
+const modal = document.getElementById('imageModal')
+const modalImg = document.getElementById('modalImage')
+const closeBtn = modal?.querySelector('.close')
+const basePath = import.meta.env?.BASE_URL ?? '/'
+let lastFocusedElement = null
+
+function resolveAssetPath(src) {
+  if (!src) return ''
+  if (/^(?:[a-z]+:)?\/\//i.test(src)) return src
+  if (src.startsWith(basePath)) return src
+  const normalizedBase = basePath.endsWith('/') ? basePath : `${basePath}/`
+  const normalizedSrc = src.replace(/^\//, '')
+  return `${normalizedBase}${normalizedSrc}`
+}
+
+function showModal(src) {
   if (!modal || !modalImg) return
   modal.style.display = 'flex'
-  modalImg.src = src
+  modalImg.src = resolveAssetPath(src)
 }
 
-function closeModal() {
-  const modal = document.getElementById('imageModal')
-  if (modal) modal.style.display = 'none'
+function hideModal() {
+  if (modal) {
+    modal.style.display = 'none'
+  }
 }
 
-// Expose for inline handlers
-window.openModal = openModal
-window.closeModal = closeModal
+function trapFocus(e) {
+  if (!modal || modal.style.display !== 'flex') return
+  if (e.key === 'Tab') {
+    e.preventDefault()
+    closeBtn?.focus()
+  } else if (e.key === 'Escape') {
+    handleModalClose()
+  }
+}
+
+function handleModalOpen(src) {
+  lastFocusedElement = document.activeElement
+  showModal(src)
+  closeBtn?.focus()
+  document.addEventListener('keydown', trapFocus)
+}
+
+function handleModalClose() {
+  hideModal()
+  document.removeEventListener('keydown', trapFocus)
+  if (lastFocusedElement) {
+    lastFocusedElement.focus()
+    lastFocusedElement = null
+  }
+}
+
+if (closeBtn) {
+  closeBtn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      handleModalClose()
+    }
+  })
+}
+
+window.openModal = handleModalOpen
+window.closeModal = handleModalClose
 
 // Smooth scrolling
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -38,45 +86,4 @@ if (menuToggle && navList) {
     const isOpen = navList.classList.toggle('open')
     menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
   })
-}
-
-// Modal accessibility: focus management & ESC close
-const modal = document.getElementById('imageModal')
-const closeBtn = modal?.querySelector('.close')
-let lastFocusedElement = null
-
-function trapFocus(e) {
-  if (!modal || modal.style.display !== 'flex') return
-  if (e.key === 'Tab') {
-    e.preventDefault()
-    closeBtn?.focus()
-  } else if (e.key === 'Escape') {
-    closeModal()
-  }
-}
-
-if (closeBtn) {
-  closeBtn.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault()
-      closeModal()
-    }
-  })
-}
-
-// Enhance openModal to handle focus
-window.openModal = function (src) {
-  lastFocusedElement = document.activeElement
-  openModal(src)
-  closeBtn?.focus()
-  document.addEventListener('keydown', trapFocus)
-}
-
-window.closeModal = function () {
-  closeModal()
-  document.removeEventListener('keydown', trapFocus)
-  if (lastFocusedElement) {
-    lastFocusedElement.focus()
-    lastFocusedElement = null
-  }
 }
