@@ -12,11 +12,17 @@
             box-sizing: border-box;
         }
         
+        html {
+            scroll-behavior: smooth;
+        }
+        
         body {
             font-family: 'Georgia', serif;
             background-color: #000;
             color: #fff;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .container {
@@ -34,6 +40,7 @@
             z-index: 1000;
             padding: 1rem 0;
             border-bottom: 2px solid #D4AF37;
+            backdrop-filter: blur(10px);
         }
         
         nav .container {
@@ -46,6 +53,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: #D4AF37;
+            z-index: 1001;
         }
         
         nav ul {
@@ -57,11 +65,50 @@
         nav a {
             color: #fff;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            -webkit-tap-highlight-color: transparent;
         }
         
         nav a:hover {
             color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        
+        nav a:active {
+            transform: scale(0.95);
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0.5rem;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #D4AF37;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+        
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
         }
         
         /* Hero Section */
@@ -179,9 +226,10 @@
             border: 2px solid #D4AF37;
             border-radius: 15px;
             padding: 2rem;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         .identity-card::before {
@@ -264,13 +312,15 @@
             padding: 2rem;
             border-radius: 15px;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         .entertainment-item:hover {
             border-color: #D4AF37;
             transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(212, 175, 55, 0.2);
         }
         
         .entertainment-icon {
@@ -302,17 +352,28 @@
             border-radius: 15px;
             cursor: pointer;
             height: 400px;
+            -webkit-tap-highlight-color: transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            box-shadow: 0 8px 16px rgba(212, 175, 55, 0.3);
         }
         
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s;
+            transition: transform 0.5s ease;
         }
         
         .gallery-item:hover img {
             transform: scale(1.1);
+        }
+        
+        .gallery-item:active img {
+            transform: scale(1.05);
         }
         
         /* Modal */
@@ -362,6 +423,13 @@
             padding: 2rem;
             border-radius: 15px;
             border: 2px solid #D4AF37;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(212, 175, 55, 0.2);
         }
         
         .contact-card h3 {
@@ -445,33 +513,142 @@
         
         /* Responsive */
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transition: right 0.3s ease;
+                padding: 2rem;
+                border-left: 2px solid #D4AF37;
+            }
+            
+            nav ul.active {
+                right: 0;
+            }
+            
+            nav li {
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                font-size: 1.3rem;
+                padding: 1rem;
+            }
+            
             .hero h1 {
                 font-size: 2rem;
+                padding: 0 1rem;
             }
             
             .hero p {
                 font-size: 1.2rem;
+                padding: 0 1rem;
             }
             
             .hero-logo {
                 max-width: 250px;
             }
             
-            .section-title {
-                font-size: 2rem;
+            .wip-banner {
+                font-size: 1rem;
+                padding: 0.75rem 1.5rem;
             }
             
-            nav ul {
-                gap: 1rem;
-                font-size: 0.9rem;
+            .opening-date {
+                font-size: 1.5rem;
+                padding: 0 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                padding: 0 1rem;
+            }
+            
+            section {
+                padding: 3rem 0;
             }
             
             .identity-cards {
                 grid-template-columns: 1fr;
             }
             
+            .identity-card {
+                padding: 1.5rem;
+            }
+            
+            .entertainment-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .entertainment-item {
+                padding: 1.5rem;
+            }
+            
             .gallery-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .gallery-item {
+                height: 300px;
+            }
+            
+            .contact-info {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .hero-logo {
+                max-width: 200px;
+            }
+            
+            .wip-banner {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .opening-date {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .gallery-item {
+                height: 250px;
             }
         }
     </style>
@@ -480,7 +657,12 @@
     <nav>
         <div class="container">
             <div class="logo">Doctor's Pub</div>
-            <ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="navMenu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#entertainment">Entertainment</a></li>
@@ -652,6 +834,40 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            const isActive = menuToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            if (isActive) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('nav')) {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
         function openModal(src) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
