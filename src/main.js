@@ -29,3 +29,54 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   })
 })
+
+// Mobile navigation toggle
+const menuToggle = document.querySelector('.menu-toggle')
+const navList = document.getElementById('primary-nav')
+if (menuToggle && navList) {
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navList.classList.toggle('open')
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false')
+  })
+}
+
+// Modal accessibility: focus management & ESC close
+const modal = document.getElementById('imageModal')
+const closeBtn = modal?.querySelector('.close')
+let lastFocusedElement = null
+
+function trapFocus(e) {
+  if (!modal || modal.style.display !== 'flex') return
+  if (e.key === 'Tab') {
+    e.preventDefault()
+    closeBtn?.focus()
+  } else if (e.key === 'Escape') {
+    closeModal()
+  }
+}
+
+if (closeBtn) {
+  closeBtn.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      closeModal()
+    }
+  })
+}
+
+// Enhance openModal to handle focus
+window.openModal = function (src) {
+  lastFocusedElement = document.activeElement
+  openModal(src)
+  closeBtn?.focus()
+  document.addEventListener('keydown', trapFocus)
+}
+
+window.closeModal = function () {
+  closeModal()
+  document.removeEventListener('keydown', trapFocus)
+  if (lastFocusedElement) {
+    lastFocusedElement.focus()
+    lastFocusedElement = null
+  }
+}

@@ -19,11 +19,12 @@
     <meta name="twitter:image" content="/IMG_9912.jpeg" />
     <script type="module" src="/src/main.js"></script>
   </head>
-<body>
+    <body>
     <nav>
         <div class="container">
             <div class="logo">Doctor's Pub</div>
-            <ul>
+                <button class="menu-toggle" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">☰</button>
+                <ul id="primary-nav">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#entertainment">Entertainment</a></li>
@@ -154,9 +155,9 @@
         </div>
     </section>
 
-    <div id="imageModal" class="modal" onclick="closeModal()">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage">
+    <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-label="Image viewer" onclick="closeModal()">
+        <span class="close" tabindex="0" role="button" aria-label="Close image modal">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Expanded gallery image">
     </div>
 
     <section id="contact" class="contact">
@@ -195,5 +196,5 @@
     </footer>
 
     
-</body>
+    </body>
 </html>

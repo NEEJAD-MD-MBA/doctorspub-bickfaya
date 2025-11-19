@@ -390,4 +390,22 @@ footer {
 @media (max-width: 768px) {
   .hero-logo { max-width: 250px; }
   nav ul { gap: 1rem; font-size: 0.9rem; }
+  .menu-toggle { display: block; background: transparent; color: #D4AF37; border: 2px solid #D4AF37; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 1.1rem; cursor: pointer; }
+  nav .container { position: relative; }
+  nav ul {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(0,0,0,0.95);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    border: 2px solid #D4AF37;
+    display: none;
+    width: max-content;
+  }
+  nav ul.open { display: flex; }
 }
+
+/* Desktop hides hamburger */
+.menu-toggle { display: none; }
