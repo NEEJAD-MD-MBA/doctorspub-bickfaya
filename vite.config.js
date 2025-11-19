@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 
-// Use dynamic base for GitHub Pages project sites.
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.BASE_PATH || '/',
+  base: "/doctorspub-bickfaya/",
 })

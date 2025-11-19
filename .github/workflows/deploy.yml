@@ -30,9 +30,6 @@ jobs:
         run: |
           npm ci || npm install
 
-      - name: Set base path for GitHub Pages project site
-        run: echo "BASE_PATH=/${{ github.event.repository.name }}/" >> $GITHUB_ENV
-
       - name: Build
         run: npm run build
 
